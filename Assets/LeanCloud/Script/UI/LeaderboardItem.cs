@@ -8,6 +8,7 @@ using LeanCloud.Storage;
 public class LeaderboardItem : MonoBehaviour, IInfiniteScrollItem {
     public Text rankingText;
     public Text nameText;
+    public Text scoreText;
 
     public void Hide() {
         gameObject.SetActive(false);
@@ -18,6 +19,7 @@ public class LeaderboardItem : MonoBehaviour, IInfiniteScrollItem {
         if (data is LCRanking ranking) {
             rankingText.text = $"No.{ranking.Rank + 1}";
             nameText.text = ranking.User["nickname"] as string;
+            scoreText.text = $"{ranking.Value}";
         }
     }
 }
