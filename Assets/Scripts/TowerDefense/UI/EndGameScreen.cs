@@ -6,6 +6,9 @@ using TowerDefense.Level;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using LeanCloud;
+using LeanCloud.Storage;
+using System.Collections.Generic;
 
 namespace TowerDefense.UI
 {
@@ -179,6 +182,8 @@ namespace TowerDefense.UI
 				HUD.GameUI.instance.CancelGhostPlacement();
 			}
 			HUD.GameUI.instance.GameOver();
+
+			UploadScore();
 		}
 
 		/// <summary>
@@ -317,6 +322,29 @@ namespace TowerDefense.UI
 				return 1;
 			}
 			return 0;
+		}
+
+		private async void UploadScore() {
+			try {
+				int homeBaseCount = m_LevelManager.numberOfHomeBases;
+				PlayerHomeBase[] homeBases = m_LevelManager.playerHomeBases;
+
+				float totalRemainingHealth = 0f;
+				for (int i = 0; i < homeBaseCount; i++) {
+					Damageable config = homeBases[i].configuration;
+					totalRemainingHealth += config.currentHealth;
+				}
+
+				LCUser user = await LCUser.GetCurrent();
+				if (user != null) {
+					Dictionary<string, double> statistics = new Dictionary<string, double> {
+					{ "GameScore", totalRemainingHealth }
+				};
+					await LCLeaderboard.UpdateStatistics(user, statistics, false);
+				}
+			} catch (LCException e) {
+				Debug.LogError($"{e.Code} : {e.Message}");
+			}
 		}
 	}
 }

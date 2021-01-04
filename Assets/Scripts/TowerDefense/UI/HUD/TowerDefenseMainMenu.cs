@@ -1,5 +1,7 @@
 using Core.UI;
 using UnityEngine;
+using LeanCloud;
+using LeanCloud.Storage;
 
 namespace TowerDefense.UI.HUD
 {
@@ -24,6 +26,36 @@ namespace TowerDefense.UI.HUD
 		public LevelSelectScreen levelSelectMenu;
 
 		/// <summary>
+        /// Reference to login panel
+        /// </summary>
+		public LoginPanel loginPanel;
+
+		/// <summary>
+        /// Reference to register panel
+        /// </summary>
+		public RegisterPanel registerPanel;
+
+		/// <summary>
+        /// Reference to name panel
+        /// </summary>
+		public NamePanel namePanel;
+
+		/// <summary>
+        /// Reference to profile panel
+        /// </summary>
+		public ProfilePanel profilePanel;
+
+		/// <summary>
+        /// Reference to leaderboard panel
+        /// </summary>
+		public LeaderboardPanel leaderboardPanel;
+
+		/// <summary>
+        /// Reference to chat panel
+        /// </summary>
+		public ChatPanel chatPanel;
+
+		/// <summary>
 		/// Bring up the options menu
 		/// </summary>
 		public void ShowOptionsMenu()
@@ -38,7 +70,64 @@ namespace TowerDefense.UI.HUD
 		{
 			ChangePage(levelSelectMenu);
 		}
-		
+
+		/// <summary>
+        /// Bring up to login menu
+        /// </summary>
+		public async void ShowLoginMenu() {
+			if (LCUtils.TryGetLocalSessionToken(out string sessionToken)) {
+				try {
+					LCUser user = await LCUser.BecomeWithSessionToken(sessionToken);
+					string nickname = user.GetNickname();
+					if (string.IsNullOrEmpty(nickname)) {
+						ShowNameMenu();
+					} else {
+						ShowProfileMenu();
+					}
+				} catch (LCException e) {
+					Debug.LogError($"{e.Code} - {e.Message}");
+					ChangePage(loginPanel);
+				}
+			} else {
+				ChangePage(loginPanel);
+			}
+        }
+
+		/// <summary>
+        /// Bring up to register menu
+        /// </summary>
+		public void ShowRegisterMenu() {
+			ChangePage(registerPanel);
+		}
+
+		/// <summary>
+        /// Bring up to name menu
+        /// </summary>
+		public void ShowNameMenu() {
+			ChangePage(namePanel);
+		}
+
+		/// <summary>
+        /// Bring up to profile menu
+        /// </summary>
+		public void ShowProfileMenu() {
+			ChangePage(profilePanel);
+		}
+
+		/// <summary>
+        /// Bring up to leaderboard menu
+        /// </summary>
+		public void ShowLeaderboard() {
+			ChangePage(leaderboardPanel);
+		}
+
+		/// <summary>
+        /// Bring up to chat menu
+        /// </summary>
+		public void ShowChat() {
+			ChangePage(chatPanel);
+		}
+
 		/// <summary>
 		/// Returns to the title screen
 		/// </summary>

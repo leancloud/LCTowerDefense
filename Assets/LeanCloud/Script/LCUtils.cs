@@ -1,0 +1,26 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using LeanCloud.Storage;
+
+public static class LCUtils
+{
+    public const string LC_SESSION_TOKEN = "lc_session_token";
+
+    public static bool IsValidString(string str) {
+        return !string.IsNullOrEmpty(str) && str.Trim().Length > 0;
+    }
+
+    public static void SaveUser(LCUser user) {
+        PlayerPrefs.SetString(LC_SESSION_TOKEN, user.SessionToken);
+    }
+
+    public static bool TryGetLocalSessionToken(out string sessionToken) {
+        sessionToken = PlayerPrefs.GetString(LC_SESSION_TOKEN, null);
+        return !string.IsNullOrEmpty(sessionToken);
+    }
+
+    public static void RemoveLocalUser() {
+        PlayerPrefs.DeleteKey(LC_SESSION_TOKEN);
+    }
+}
