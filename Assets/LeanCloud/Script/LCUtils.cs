@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LeanCloud;
 using LeanCloud.Storage;
 
-public static class LCUtils
-{
+public static class LCUtils {
     public const string LC_SESSION_TOKEN = "lc_session_token";
 
     public static bool IsValidString(string str) {
@@ -22,5 +22,9 @@ public static class LCUtils
 
     public static void RemoveLocalUser() {
         PlayerPrefs.DeleteKey(LC_SESSION_TOKEN);
+    }
+
+    public static void LogException(LCException e) {
+        Debug.LogError($"{e.Code} : {e.Message}");
     }
 }

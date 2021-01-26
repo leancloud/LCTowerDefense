@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LeanCloud.Storage;
 
-public static class LCUserExtension
-{
+public static class LCUserExtension {
     public static string GetNickname(this LCUser user) {
         return user["nickname"] as string;
     }

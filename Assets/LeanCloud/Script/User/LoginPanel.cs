@@ -25,7 +25,7 @@ public class LoginPanel : SimpleMainMenuPage
         }
 
         try {
-            LCUser user = await LCUser.Login(username, password);
+            LCUser user = await LCManager.Instance.Login(username, password);
             LCUtils.SaveUser(user);
             string nickname = user.GetNickname();
             if (string.IsNullOrEmpty(nickname)) {

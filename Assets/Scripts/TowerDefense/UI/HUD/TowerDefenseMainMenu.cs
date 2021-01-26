@@ -53,7 +53,17 @@ namespace TowerDefense.UI.HUD
 		/// <summary>
         /// Reference to chat panel
         /// </summary>
-		public ChatPanel chatPanel;
+		public WorldChatPanel worldChatPanel;
+
+		/// <summary>
+        /// Reference to friend panel
+        /// </summary>
+		public FriendPanel friendPanel;
+
+		/// <summary>
+        /// Reference to private chat panel
+        /// </summary>
+		public PrivateChatPanel privateChatPanel;
 
 		/// <summary>
 		/// Bring up the options menu
@@ -77,7 +87,7 @@ namespace TowerDefense.UI.HUD
 		public async void ShowLoginMenu() {
 			if (LCUtils.TryGetLocalSessionToken(out string sessionToken)) {
 				try {
-					LCUser user = await LCUser.BecomeWithSessionToken(sessionToken);
+					LCUser user = await LCManager.Instance.Login(sessionToken);
 					string nickname = user.GetNickname();
 					if (string.IsNullOrEmpty(nickname)) {
 						ShowNameMenu();
@@ -124,8 +134,23 @@ namespace TowerDefense.UI.HUD
 		/// <summary>
         /// Bring up to chat menu
         /// </summary>
-		public void ShowChat() {
-			ChangePage(chatPanel);
+		public void ShowWorldChat() {
+			ChangePage(worldChatPanel);
+		}
+
+		/// <summary>
+        /// Bring up to friend menu
+        /// </summary>
+		public void ShowFriend() {
+			ChangePage(friendPanel);
+		}
+
+		/// <summary>
+        /// Bring up to private chat menu
+        /// </summary>
+		public void ShowPrivateChat(LCUser user) {
+			privateChatPanel.target = user;
+			ChangePage(privateChatPanel);
 		}
 
 		/// <summary>

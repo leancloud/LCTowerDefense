@@ -338,8 +338,8 @@ namespace TowerDefense.UI
 				LCUser user = await LCUser.GetCurrent();
 				if (user != null) {
 					Dictionary<string, double> statistics = new Dictionary<string, double> {
-					{ "GameScore", totalRemainingHealth }
-				};
+						{ "GameScore", totalRemainingHealth }
+					};
 					await LCLeaderboard.UpdateStatistics(user, statistics, false);
 				}
 			} catch (LCException e) {
