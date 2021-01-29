@@ -18,7 +18,7 @@ public class LeaderboardItem : MonoBehaviour, IInfiniteScrollItem {
         gameObject.SetActive(true);
         if (data is LCRanking ranking) {
             rankingText.text = $"No.{ranking.Rank + 1}";
-            nameText.text = ranking.User["nickname"] as string;
+            nameText.text = ranking.User.GetNickname();
             scoreText.text = $"{ranking.Value}";
         }
     }

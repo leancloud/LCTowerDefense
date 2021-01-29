@@ -10,6 +10,8 @@ using LeanCloud.Realtime;
 using Scrmizu;
 
 public class PrivateChatPanel : SimpleMainMenuPage {
+    public ConversationPanel conversationPanel;
+
     public Text nameText;
 
     public InfiniteScrollRect scrollRect;
@@ -21,12 +23,22 @@ public class PrivateChatPanel : SimpleMainMenuPage {
     private LCIMClient client;
     private LCIMConversation conversation;
 
-    public override async void Show() {
+    public override void Show() {
         base.Show();
 
+        conversationPanel.Reload();
+        Reload();
+    }
+
+    public override void Hide() {
+        base.Hide();
+        client.OnMessage -= OnMessage;
+    }
+
+    private async void Reload() {
         scrollRect.ClearItemData();
 
-        nameText.text = target["nickname"] as string;
+        nameText.text = target.GetNickname();
 
         client = LCManager.Instance.IMClient;
         client.OnMessage += OnMessage;
@@ -38,9 +50,9 @@ public class PrivateChatPanel : SimpleMainMenuPage {
         }
     }
 
-    public override void Hide() {
-        base.Hide();
-        client.OnMessage -= OnMessage;
+    public void Chat(LCUser target) {
+        this.target = target;
+        Reload();
     }
 
     public async void Send() {
@@ -68,7 +80,7 @@ public class PrivateChatPanel : SimpleMainMenuPage {
 
     private async void AddMessage(LCIMMessage message) {
         LCUser user = await LCManager.Instance.GetUser(message.FromClientId);
-        scrollRect.AddItemData(new ChatItem.MessageEntity {
+        scrollRect.AddItemData(new MessageEntity {
             User = user,
             Message = message
         });

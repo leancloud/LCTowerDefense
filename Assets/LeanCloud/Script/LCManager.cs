@@ -18,6 +18,7 @@ public class LCManager : MonoBehaviour {
     }
 
     private Dictionary<string, LCUser> users = new Dictionary<string, LCUser>();
+    private Dictionary<string, Task<LCUser>> fetchUserTasks = new Dictionary<string, Task<LCUser>>();
 
     void Awake() {
         instance = this;
@@ -40,6 +41,12 @@ public class LCManager : MonoBehaviour {
                     break;
             }
         };
+    }
+
+    private async void OnDestroy() {
+        if (IMClient != null) {
+            await IMClient.Close();
+        }
     }
 
     public async Task<LCUser> Login(string username, string password) {
@@ -70,7 +77,13 @@ public class LCManager : MonoBehaviour {
         if (users.TryGetValue(id, out LCUser user)) {
             return user;
         }
-        user = await LCUser.GetQuery().Get(id);
+        if (fetchUserTasks.TryGetValue(id, out Task<LCUser> runningTask)) {
+            return await runningTask;
+        }
+        Task<LCUser> task = LCUser.GetQuery().Get(id);
+        fetchUserTasks.Add(id, task);
+        user = await task;
+        fetchUserTasks.Remove(id);
         users[id] = user;
         return user;
     }

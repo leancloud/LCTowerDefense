@@ -18,7 +18,7 @@ public class FriendItem : MonoBehaviour, IInfiniteScrollItem {
         if (data is LCObject obj) {
             friendship = obj;
             LCUser friend = friendship["followee"] as LCUser;
-            nameText.text = friend["nickname"] as string;
+            nameText.text = friend.GetNickname();
             gameObject.SetActive(true);
         }
     }

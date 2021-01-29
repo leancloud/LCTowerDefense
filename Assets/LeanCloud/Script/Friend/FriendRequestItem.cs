@@ -20,7 +20,7 @@ public class FriendRequestItem : MonoBehaviour, IInfiniteScrollItem {
         if (data is LCFriendshipRequest req) {
             request = req;
             LCUser user = request["user"] as LCUser;
-            nameText.text = user["nickname"] as string;
+            nameText.text = user.GetNickname();
             gameObject.SetActive(true);
         }
     }

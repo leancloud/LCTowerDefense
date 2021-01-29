@@ -18,7 +18,7 @@ public class LeaderboardPanel : SimpleMainMenuPage {
         ReadOnlyCollection<LCRanking> rankings = await leaderboard.GetResults(limit: 10, selectUserKeys: new string[] { "nickname" });
         foreach (LCRanking ranking in rankings) {
             LCUser user = ranking.User;
-            Debug.Log($"{user["nickname"]} : ${ranking.Value}");
+            Debug.Log($"{user.GetNickname()} : ${ranking.Value}");
         }
 
         scrollRect.SetItemData(rankings);
@@ -27,7 +27,6 @@ public class LeaderboardPanel : SimpleMainMenuPage {
     public async void OnTestClicked() {
         try {
             LCUser user = await LCUser.GetCurrent();
-            Random random = new Random();
             int score = Random.Range(1, 100);
             Dictionary<string, double> statistics = new Dictionary<string, double> {
                 { LeaderboadName, score }

@@ -15,6 +15,8 @@ public class WorldChatPanel : SimpleMainMenuPage {
 
     public InputField inputField;
 
+    public WorldPopup popup;
+
     public override async void Show() {
         base.Show();
 
@@ -27,6 +29,13 @@ public class WorldChatPanel : SimpleMainMenuPage {
     public override void Hide() {
         base.Hide();
         LCManager.Instance.IMClient.OnMessage -= OnMessage;
+    }
+
+    public void Chat(LCUser target) {
+        if (target != null &&
+            target.ObjectId != LCManager.Instance.User.ObjectId) {
+            popup.Show(target);
+        }
     }
 
     private void OnMessage(LCIMConversation conv, LCIMMessage msg) {
@@ -54,7 +63,7 @@ public class WorldChatPanel : SimpleMainMenuPage {
 
     private async void AddMessage(LCIMMessage message) {
         LCUser user = await LCManager.Instance.GetUser(message.FromClientId);
-        scrollRect.AddItemData(new ChatItem.MessageEntity {
+        scrollRect.AddItemData(new MessageEntity {
             User = user,
             Message = message
         });

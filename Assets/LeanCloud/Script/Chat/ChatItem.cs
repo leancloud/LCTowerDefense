@@ -7,16 +7,9 @@ using LeanCloud.Storage;
 using LeanCloud.Realtime;
 
 public class ChatItem : MonoBehaviour, IInfiniteScrollItem {
-    public class MessageEntity {
-        public LCUser User {
-            get; set;
-        }
-        public LCIMMessage Message {
-            get; set;
-        }
-    }
-
     public Text chatText;
+
+    private LCUser user;
 
     public void Hide() {
         gameObject.SetActive(false);
@@ -25,9 +18,13 @@ public class ChatItem : MonoBehaviour, IInfiniteScrollItem {
     public void UpdateItemData(object data) {
         if (data is MessageEntity messageEntity) {
             gameObject.SetActive(true);
-            LCUser user = messageEntity.User;
+            user = messageEntity.User;
             LCIMTextMessage message = messageEntity.Message as LCIMTextMessage;
-            chatText.text = $"{user["nickname"]}: {message.Text}";
+            chatText.text = $"{user.GetNickname()}: {message.Text}";
         }
+    }
+
+    public void OnClick() {
+        SendMessageUpwards("Chat", user, SendMessageOptions.DontRequireReceiver);
     }
 }
