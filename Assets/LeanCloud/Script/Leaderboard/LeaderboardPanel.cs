@@ -12,8 +12,12 @@ public class LeaderboardPanel : SimpleMainMenuPage {
 
     public InfiniteScrollRect scrollRect;
 
-    public override async void Show() {
+    public override void Show() {
         base.Show();
+        Reload();
+    }
+
+    private async void Reload() {
         LCLeaderboard leaderboard = LCLeaderboard.CreateWithoutData(LeaderboadName);
         ReadOnlyCollection<LCRanking> rankings = await leaderboard.GetResults(limit: 10, selectUserKeys: new string[] { "nickname" });
         foreach (LCRanking ranking in rankings) {
@@ -24,14 +28,15 @@ public class LeaderboardPanel : SimpleMainMenuPage {
         scrollRect.SetItemData(rankings);
     }
 
-    public async void OnTestClicked() {
+    public async void FakePlay() {
         try {
             LCUser user = await LCUser.GetCurrent();
-            int score = Random.Range(1, 100);
+            int score = Random.Range(1, 10);
             Dictionary<string, double> statistics = new Dictionary<string, double> {
                 { LeaderboadName, score }
             };
             await LCLeaderboard.UpdateStatistics(user, statistics, false);
+            Reload();
         } catch (LCException e) {
             Debug.Log($"{e.Code} : {e.Message}");
         }
