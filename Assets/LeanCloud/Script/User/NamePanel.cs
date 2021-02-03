@@ -20,9 +20,9 @@ public class NamePanel : SimpleMainMenuPage
             LCUser user = await LCUser.GetCurrent();
             user.SetNickname(nickname);
             await user.Save();
-            SendMessageUpwards("ShowTitleScreen", SendMessageOptions.RequireReceiver);
+            SendMessageUpwards("BackToLCMainMenu", SendMessageOptions.RequireReceiver);
         } catch (LCException e) {
-            Debug.LogError($"{e.Code} - {e.Message}");
+            LCUtils.LogException(e);
         }
     }
 }

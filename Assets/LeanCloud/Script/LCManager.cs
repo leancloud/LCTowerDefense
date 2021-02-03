@@ -73,6 +73,34 @@ public class LCManager : MonoBehaviour {
         }
     }
 
+    public async Task<LCUser> Register(string username, string password) {
+        try {
+            LCUser user = new LCUser {
+                Username = username,
+                Password = password
+            };
+            await user.SignUp();
+            IMClient = new LCIMClient(user);
+            await IMClient.Open();
+            return user;
+        } catch (LCException e) {
+            LCUtils.LogException(e);
+            throw e;
+        }
+    }
+
+    public async Task Logout() {
+        try {
+            await LCUser.Logout();
+            LCUtils.RemoveLocalUser();
+            await IMClient.Close();
+            User = null;
+            IMClient = null;
+        } catch (LCException e) {
+            LCUtils.LogException(e);
+        }
+    }
+
     public async Task<LCUser> GetUser(string id) {
         if (users.TryGetValue(id, out LCUser user)) {
             return user;

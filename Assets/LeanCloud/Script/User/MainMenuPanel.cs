@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,8 +7,7 @@ using Core.UI;
 using LeanCloud;
 using LeanCloud.Storage;
 
-public class ProfilePanel : SimpleMainMenuPage
-{
+public class MainMenuPanel : SimpleMainMenuPage {
     public Text nameText;
 
     public override async void Show() {
@@ -16,17 +16,17 @@ public class ProfilePanel : SimpleMainMenuPage
             LCUser user = await LCUser.GetCurrent();
             nameText.text = user.GetNickname();
         } catch (LCException e) {
-            Debug.LogError($"{e.Code} - {e.Message}");
+            LCUtils.LogException(e);
         }
     }
 
     public async void Logout() {
         try {
-            await LCUser.Logout();
-            LCUtils.RemoveLocalUser();
+            await LCManager.Instance.Logout();
             SendMessageUpwards("ShowTitleScreen", SendMessageOptions.RequireReceiver);
-        } catch (LCException e) {
-            Debug.LogError($"{e.Code} - {e.Message}");
+        } catch (Exception e) {
+            // TODO Toast
+
         }
     }
 }

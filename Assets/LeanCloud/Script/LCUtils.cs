@@ -27,4 +27,12 @@ public static class LCUtils {
     public static void LogException(LCException e) {
         Debug.LogError($"{e.Code} : {e.Message}");
     }
+
+    public static void ShowToast(Component component, string message) {
+        component.SendMessageUpwards("ShowToast", message, SendMessageOptions.RequireReceiver);
+    }
+
+    public static void ShowToast(Component component, LCException e) {
+        component.SendMessageUpwards("ShowToast", $"{e.Code} : {e.Message}", SendMessageOptions.RequireReceiver);
+    }
 }

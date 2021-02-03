@@ -12,6 +12,8 @@ public class LeaderboardPanel : SimpleMainMenuPage {
 
     public InfiniteScrollRect scrollRect;
 
+    public UserPopup popup;
+
     public override void Show() {
         base.Show();
         Reload();
@@ -26,6 +28,13 @@ public class LeaderboardPanel : SimpleMainMenuPage {
         }
 
         scrollRect.SetItemData(rankings);
+    }
+
+    public void ClickUser(LCUser target) {
+        if (target != null &&
+            target.ObjectId != LCManager.Instance.User.ObjectId) {
+            popup.Show(target);
+        }
     }
 
     public async void FakePlay() {

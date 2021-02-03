@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Core.UI;
+using LeanCloud;
 using LeanCloud.Storage;
 
-public class RegisterPanel : SimpleMainMenuPage
-{
+public class RegisterPanel : SimpleMainMenuPage {
     public InputField usernameInputField;
 
     public InputField passwordInputField;
@@ -27,10 +27,12 @@ public class RegisterPanel : SimpleMainMenuPage
             return;
         }
 
-        LCUser user = new LCUser {
-            Username = username,
-            Password = password
-        };
-        await user.SignUp();
+        try {
+            await LCManager.Instance.Register(username, password);
+            SendMessageUpwards("ShowNameMenu", SendMessageOptions.RequireReceiver);
+        } catch (LCException e) {
+            // TODO Toast
+
+        } 
     }
 }

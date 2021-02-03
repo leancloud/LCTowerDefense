@@ -15,7 +15,7 @@ public class WorldChatPanel : SimpleMainMenuPage {
 
     public InputField inputField;
 
-    public WorldPopup popup;
+    public UserPopup popup;
 
     public override async void Show() {
         base.Show();
@@ -31,7 +31,7 @@ public class WorldChatPanel : SimpleMainMenuPage {
         LCManager.Instance.IMClient.OnMessage -= OnMessage;
     }
 
-    public void Chat(LCUser target) {
+    public void ClickUser(LCUser target) {
         if (target != null &&
             target.ObjectId != LCManager.Instance.User.ObjectId) {
             popup.Show(target);

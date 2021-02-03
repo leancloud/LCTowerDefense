@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using LeanCloud;
 using LeanCloud.Storage;
 
-public class WorldPopup : MonoBehaviour {
+public class UserPopup : MonoBehaviour {
     public Text titleText;
 
     private LCUser target;

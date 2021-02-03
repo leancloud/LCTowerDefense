@@ -25,6 +25,6 @@ public class ChatItem : MonoBehaviour, IInfiniteScrollItem {
     }
 
     public void OnClick() {
-        SendMessageUpwards("Chat", user, SendMessageOptions.DontRequireReceiver);
+        SendMessageUpwards("ClickUser", user, SendMessageOptions.DontRequireReceiver);
     }
 }

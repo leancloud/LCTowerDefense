@@ -43,7 +43,7 @@ namespace TowerDefense.UI.HUD
 		/// <summary>
         /// Reference to profile panel
         /// </summary>
-		public ProfilePanel profilePanel;
+		public MainMenuPanel lcMainMenuPanel;
 
 		/// <summary>
         /// Reference to leaderboard panel
@@ -92,7 +92,7 @@ namespace TowerDefense.UI.HUD
 					if (string.IsNullOrEmpty(nickname)) {
 						ShowNameMenu();
 					} else {
-						ShowProfileMenu();
+						ShowLCMainMenu();
 					}
 				} catch (LCException e) {
 					Debug.LogError($"{e.Code} - {e.Message}");
@@ -120,8 +120,8 @@ namespace TowerDefense.UI.HUD
 		/// <summary>
         /// Bring up to profile menu
         /// </summary>
-		public void ShowProfileMenu() {
-			ChangePage(profilePanel);
+		public void ShowLCMainMenu() {
+			ChangePage(lcMainMenuPanel);
 		}
 
 		/// <summary>
@@ -159,6 +159,10 @@ namespace TowerDefense.UI.HUD
 		public void ShowTitleScreen()
 		{
 			Back(titleMenu);
+		}
+
+		public void BackToLCMainMenu() {
+			Back(lcMainMenuPanel);
 		}
 
 		/// <summary>
