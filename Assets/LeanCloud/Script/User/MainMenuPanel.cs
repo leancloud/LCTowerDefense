@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Core.UI;
@@ -24,9 +22,9 @@ public class MainMenuPanel : SimpleMainMenuPage {
         try {
             await LCManager.Instance.Logout();
             SendMessageUpwards("ShowTitleScreen", SendMessageOptions.RequireReceiver);
-        } catch (Exception e) {
+        } catch (LCException e) {
             // TODO Toast
-
+            LCUtils.ShowToast(this, e);
         }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Core.UI;
 using LeanCloud;
-using LeanCloud.Storage;
 
 public class RegisterPanel : SimpleMainMenuPage {
     public InputField usernameInputField;
@@ -16,23 +13,30 @@ public class RegisterPanel : SimpleMainMenuPage {
     public async void OnRegisterClicked() {
         string username = usernameInputField.text;
         if (!LCUtils.IsValidString(username)) {
+            LCUtils.ShowToast(this, "Please input username.");
             return;
         }
         string password = passwordInputField.text;
         if (!LCUtils.IsValidString(password)) {
+            LCUtils.ShowToast(this, "Please input password.");
             return;
         }
         string confirmPassword = confirmPasswordInputField.text;
         if (!LCUtils.IsValidString(confirmPassword)) {
+            LCUtils.ShowToast(this, "Please retype password.");
+            return;
+        }
+        if (password != confirmPassword) {
+            LCUtils.ShowToast(this, "Password not match.");
             return;
         }
 
         try {
             await LCManager.Instance.Register(username, password);
+            LCUtils.ShowToast(this, "注册成功");
             SendMessageUpwards("ShowNameMenu", SendMessageOptions.RequireReceiver);
         } catch (LCException e) {
-            // TODO Toast
-
+            LCUtils.ShowToast(this, e);
         } 
     }
 }

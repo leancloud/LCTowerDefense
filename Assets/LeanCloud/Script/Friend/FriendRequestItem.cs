@@ -30,7 +30,7 @@ public class FriendRequestItem : MonoBehaviour, IInfiniteScrollItem {
             await LCFriendship.AcceptRequest(request);
             SendMessageUpwards("Reload", SendMessageOptions.RequireReceiver);
         } catch (LCException e) {
-            Debug.LogError($"{e.Code} - {e.Message}");
+            LCUtils.LogException(e);
             throw e;
         }
     }
@@ -40,7 +40,7 @@ public class FriendRequestItem : MonoBehaviour, IInfiniteScrollItem {
             await LCFriendship.DeclineRequest(request);
             SendMessageUpwards("Reload", SendMessageOptions.RequireReceiver);
         } catch (LCException e) {
-            Debug.LogError($"{e.Code} - {e.Message}");
+            LCUtils.LogException(e);
             throw e;
         }
     }

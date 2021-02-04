@@ -13,6 +13,7 @@ public class NamePanel : SimpleMainMenuPage
     public async void OnOKClicked() {
         string nickname = nicknameInputField.text;
         if (!LCUtils.IsValidString(nickname)) {
+            LCUtils.ShowToast(this, "Please input nickname");
             return;
         }
 
@@ -23,6 +24,7 @@ public class NamePanel : SimpleMainMenuPage
             SendMessageUpwards("BackToLCMainMenu", SendMessageOptions.RequireReceiver);
         } catch (LCException e) {
             LCUtils.LogException(e);
+            LCUtils.ShowToast(this, e);
         }
     }
 }

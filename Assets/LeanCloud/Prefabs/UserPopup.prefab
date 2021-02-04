@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: CHAT
+  m_Text: "\u804A\u5929"
 --- !u!1 &8009217018361104203
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,7 +532,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ADD FRIEND
+  m_Text: "\u52A0\u597D\u53CB"
 --- !u!1 &8009217018833689638
 GameObject:
   m_ObjectHideFlags: 0
